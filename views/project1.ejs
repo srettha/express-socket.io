@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <h1>
+        <%= title %>
+    </h1>
+    <p>Welcome to
+        <%= title %>
+    </p>
+</body>
+
+</html>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    let roomId = 'aasdflkjzxcv'
+    const socket = io.connect('http://localhost:3000/project');
+    socket.on('connect', () => {
+        console.log(`test client side ${socket.id} connected to project`);
+        socket.emit('room', roomId);
+    });
+    socket.emit('status', {
+        taskId: Math.ceil(Math.random() * Math.floor(5)),
+        statusId: Math.ceil(Math.random() * Math.floor(4)),
+        userId: Math.ceil(Math.random() * Math.floor(3))
+    });
+    socket.on('status', (data) => {
+        console.log(`data specifically for sadadsfjl23f room`);
+        console.log(data);
+    });
+    socket.on('disconnect', () => console.log('test client side disconnected'));
+</script>

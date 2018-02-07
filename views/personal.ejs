@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <h1>
+        <%= title %>
+    </h1>
+    <p>Welcome to
+        <%= title %>
+    </p>
+</body>
+
+</html>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    $(function () {
+        const socket = io.connect('http://localhost:3000/personal');
+        socket.on('connect', () => {
+            console.log(`index client side ${socket.id} connected to default room in server`);
+            console.log('send status changes to server');
+            socket.emit('status', {
+                taskId: Math.ceil(Math.random() * Math.floor(5)),
+                statusId: Math.ceil(Math.random() * Math.floor(4)),
+                userId: Math.ceil(Math.random() * Math.floor(3)),
+                projectId: 'sadadsfjl23f'
+            });
+            socket.emit('status', {
+                taskId: Math.ceil(Math.random() * Math.floor(5)),
+                statusId: Math.ceil(Math.random() * Math.floor(4)),
+                userId: Math.ceil(Math.random() * Math.floor(3)),
+                projectId: 'aasdflkjzxcv'
+            });
+        });
+        socket.on('status', (data) => {
+            console.log(`get data from other kanban's project`);
+            console.log(data);
+        });
+        socket.on('disconnect', () => console.log('index client side disconnected'));
+    });
+</script>
